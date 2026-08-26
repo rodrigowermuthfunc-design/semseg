@@ -1,0 +1,10 @@
+{
+  "name": "COMPDEC Gestão Integrada",
+  "short_name": "COMPDEC",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f3f6f9",
+  "theme_color": "#0f2233",
+  "lang": "pt-BR",
+  "description": "Gestão de estoque, NUPDECs, equipes, voluntários e prontidão da Defesa Civil."
+}
