@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
-import { onAuthStateChanged, signInWithEmailAndPassword, signOut, type User } from 'firebase/auth'
+import { getMultiFactorResolver, onAuthStateChanged, signInWithEmailAndPassword, signOut, TotpMultiFactorGenerator, type User, type UserCredential } from 'firebase/auth'
 import { auth } from './firebase'
 import type { Role, SessionClaims } from '../types'
 
@@ -35,7 +35,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const value = useMemo<AuthState>(() => ({
     user, claims, loading,
     login: async (email, password) => {
-      const result = await signInWithEmailAndPassword(auth, email.trim(), password)
+      let result: UserCredential
+      try {
+        result = await signInWithEmailAndPassword(auth, email.trim(), password)
+      } catch (err: any) {
+        if (err?.code !== 'auth/multi-factor-auth-required') throw err
+        const resolver = getMultiFactorResolver(auth, err)
+        const hint = resolver.hints.find(h => h.factorId === TotpMultiFactorGenerator.FACTOR_ID)
+        if (!hint) throw new Error('A conta exige um segundo fator não suportado neste cliente. Contate o administrador.')
+        const otp = window.prompt('Digite o código de 6 dígitos do seu aplicativo autenticador:')?.trim()
+        if (!otp) throw new Error('Código MFA obrigatório.')
+        const assertion = TotpMultiFactorGenerator.assertionForSignIn(hint.uid, otp)
+        result = await resolver.resolveSignIn(assertion)
+      }
       if (!result.user.emailVerified) {
         await signOut(auth)
         throw new Error('E-mail ainda não verificado. Acesso bloqueado.')

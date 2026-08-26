@@ -33,7 +33,7 @@ service cloud.firestore {
       allow write: if false;
     }
     match /inventoryItems/{id} {
-      allow read: if isStock();
+      allow read: if isStock() || isLeader();
       allow write: if false;
     }
     match /stockLocations/{id} {

@@ -4,7 +4,7 @@
 Este repositório contém um sistema institucional que poderá tratar dados pessoais. Segurança, rastreabilidade e minimização de dados são requisitos de produto, não opcionais.
 
 ## Como o Codex deve trabalhar
-1. Execute `npm ci` e `npm --prefix functions ci` antes de mudanças grandes.
+1. Se ainda não existir `package-lock.json`, execute `npm install` e `npm --prefix functions install` uma vez e versione os lockfiles. Depois, prefira `npm ci` e `npm --prefix functions ci` para builds reproduzíveis.
 2. Execute `npm run typecheck`, `npm run build` e `npm --prefix functions run build` antes de concluir.
 3. Nunca adicione segredos, credenciais, dados reais de voluntários ou arquivos pessoais ao Git.
 4. Nunca enfraqueça `firestore.rules`, `storage.rules`, App Check, RBAC ou auditoria para "fazer funcionar".
