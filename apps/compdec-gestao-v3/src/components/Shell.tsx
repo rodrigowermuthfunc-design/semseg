@@ -1,5 +1,5 @@
 import { NavLink, Outlet } from 'react-router-dom'
-import { Boxes, CalendarDays, ClipboardList, Gauge, GraduationCap, LayoutDashboard, LogOut, MapPinned, Megaphone, PackageCheck, ShieldCheck, Users, UsersRound, FileLock2, History, UserCog } from 'lucide-react'
+import { Boxes, CalendarDays, ClipboardList, Gauge, GraduationCap, LayoutDashboard, LogOut, MapPinned, Megaphone, PackageCheck, ShieldCheck, Users, UsersRound, FileLock2, History, UserCog, ContactRound } from 'lucide-react'
 import { useAuth } from '../lib/AuthContext'
 import { can } from '../lib/permissions'
 
@@ -11,6 +11,7 @@ const items = [
   ['/nupdecs', 'NUPDECs / Mapa', MapPinned, 'nupdecs'],
   ['/equipes', 'Equipes', UsersRound, 'teams'],
   ['/voluntarios', 'Voluntários', Users, 'volunteers'],
+  ['/voluntarios-dados', 'Dados privados', ContactRound, 'private-volunteers'],
   ['/treinamentos', 'Treinamentos', GraduationCap, 'activities'],
   ['/reunioes', 'Reuniões', CalendarDays, 'activities'],
   ['/avisos', 'Avisos', Megaphone, 'alerts'],

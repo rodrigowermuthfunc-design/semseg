@@ -31,7 +31,7 @@ export const upsertManagedRecord = onCall({enforceAppCheck:true},async req=>{
   if(role==='LIDER_NUPDEC'){const own=String(a.token.nupdecId||'');if(!own)throw new HttpsError('permission-denied','Líder sem NUPDEC vinculada.');if(String(parsed.nupdecId||'')!==own)throw new HttpsError('permission-denied','Acesso limitado ao próprio NUPDEC.')}
   const ref=envelope.id?db.doc(`${collection}/${envelope.id}`):db.collection(collection).doc();const before=envelope.id?await ref.get():null
   await ref.set({...parsed,updatedAt:FieldValue.serverTimestamp(),...(before?.exists?{}:{createdAt:FieldValue.serverTimestamp()}),updatedByUid:a.uid},{merge:true})
-  if(collection==='nupdecs'&&!before?.exists){const loc=db.collection('stockLocations').doc();await loc.set({name:`Estoque ${String(parsed.name)}`,type:'NUPDEC',nupdecId:ref.id,createdAt:FieldValue.serverTimestamp(),updatedAt:FieldValue.serverTimestamp()})}
+  if(!before?.exists&&(collection==='nupdecs'||collection==='teams')){const loc=db.collection('stockLocations').doc();await loc.set({name:`Estoque ${String(parsed.name)}`,type:collection==='nupdecs'?'NUPDEC':'EQUIPE',...(collection==='nupdecs'?{nupdecId:ref.id}:{teamId:ref.id}),createdAt:FieldValue.serverTimestamp(),updatedAt:FieldValue.serverTimestamp()})}
   await audit({actorUid:a.uid,actorEmail:a.token.email as string|undefined,action:before?.exists?'RECORD_UPDATE':'RECORD_CREATE',resourceType:collection,resourceId:ref.id,metadata:{fields:Object.keys(parsed)}});return{ok:true,id:ref.id}
 })
 

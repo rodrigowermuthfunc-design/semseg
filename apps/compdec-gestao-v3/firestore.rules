@@ -29,7 +29,7 @@ service cloud.firestore {
       allow write: if false;
     }
     match /volunteerPrivate/{id} {
-      allow read: if verified() && (isManager() || (isLeader() && resource.data.nupdecId == nupdecClaim()));
+      allow read: if isManager();
       allow write: if false;
     }
     match /inventoryItems/{id} {

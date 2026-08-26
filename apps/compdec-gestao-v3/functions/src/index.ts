@@ -1,4 +1,5 @@
-export { moveStock, createMaterialRequest, approveMaterialRequest, rejectMaterialRequest, createCustody, returnCustody } from './stock.js'
+export { moveStock, receiveStock, createMaterialRequest, approveMaterialRequest, rejectMaterialRequest, createCustody, returnCustody } from './stock.js'
 export { adminCreateUser, setUserRole } from './users.js'
 export { upsertManagedRecord, upsertVolunteerPrivate, registerDocument } from './records.js'
 export { recalculateReadiness } from './readiness.js'
+export { syncVolunteerCount } from './triggers.js'
