@@ -20,43 +20,73 @@ service cloud.firestore {
       allow read: if verified() && (isManager() || isStock() || role() == 'CONSULTA' || sameNupdec(id));
       allow write: if false;
     }
-    match /teams/{id} { allow read: if verified(); allow write: if false; }
+    match /teams/{id} {
+      allow read: if verified() && (isManager() || isStock() || role() == 'CONSULTA');
+      allow write: if false;
+    }
     match /volunteers/{id} {
-      allow read: if verified() && (isManager() || isStock() || role() == 'CONSULTA' || (isLeader() && resource.data.nupdecId == nupdecClaim()));
+      allow read: if verified() && (isManager() || (isLeader() && resource.data.nupdecId == nupdecClaim()));
       allow write: if false;
     }
     match /volunteerPrivate/{id} {
       allow read: if verified() && (isManager() || (isLeader() && resource.data.nupdecId == nupdecClaim()));
       allow write: if false;
     }
-    match /inventoryItems/{id} { allow read: if verified(); allow write: if false; }
-    match /stockLocations/{id} { allow read: if verified(); allow write: if false; }
-    match /stockBalances/{id} { allow read: if verified(); allow write: if false; }
-    match /stockMovements/{id} { allow read: if verified(); allow write: if false; }
+    match /inventoryItems/{id} {
+      allow read: if isStock();
+      allow write: if false;
+    }
+    match /stockLocations/{id} {
+      allow read: if isStock() || (isLeader() && resource.data.nupdecId == nupdecClaim());
+      allow write: if false;
+    }
+    match /stockBalances/{id} {
+      allow read: if isStock();
+      allow write: if false;
+    }
+    match /stockMovements/{id} {
+      allow read: if isStock();
+      allow write: if false;
+    }
     match /custodies/{id} {
       allow read: if verified() && (isStock() || (isLeader() && resource.data.nupdecId == nupdecClaim()));
       allow write: if false;
     }
     match /materialRequests/{id} {
-      allow read: if verified() && (isStock() || isManager() || (isLeader() && resource.data.nupdecId == nupdecClaim()));
+      allow read: if verified() && (isStock() || (isLeader() && resource.data.nupdecId == nupdecClaim()));
       allow write: if false;
     }
     match /trainings/{id} {
-      allow read: if verified() && (isManager() || isStock() || role() == 'CONSULTA' || (isLeader() && resource.data.nupdecId == nupdecClaim()));
+      allow read: if verified() && (isManager() || role() == 'CONSULTA' || (isLeader() && resource.data.nupdecId == nupdecClaim()));
       allow write: if false;
     }
     match /meetings/{id} {
-      allow read: if verified() && (isManager() || isStock() || role() == 'CONSULTA' || (isLeader() && resource.data.nupdecId == nupdecClaim()));
+      allow read: if verified() && (isManager() || role() == 'CONSULTA' || (isLeader() && resource.data.nupdecId == nupdecClaim()));
       allow write: if false;
     }
-    match /alerts/{id} { allow read: if verified(); allow write: if false; }
-    match /attendance/{id} { allow read: if verified(); allow write: if false; }
+    match /alerts/{id} {
+      allow read: if verified();
+      allow write: if false;
+    }
+    match /attendance/{id} {
+      allow read: if verified() && (isManager() || (isLeader() && resource.data.nupdecId == nupdecClaim()));
+      allow write: if false;
+    }
     match /documents/{id} {
       allow read: if verified() && (isManager() || (isLeader() && resource.data.nupdecId == nupdecClaim()));
       allow write: if false;
     }
-    match /readinessSnapshots/{id} { allow read: if verified(); allow write: if false; }
-    match /auditLogs/{id} { allow read: if isManager(); allow write: if false; }
-    match /systemSettings/{id} { allow read: if verified(); allow write: if false; }
+    match /readinessSnapshots/{id} {
+      allow read: if verified();
+      allow write: if false;
+    }
+    match /auditLogs/{id} {
+      allow read: if isManager();
+      allow write: if false;
+    }
+    match /systemSettings/{id} {
+      allow read: if isManager();
+      allow write: if false;
+    }
   }
 }
