@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0f2233" />
+  <meta name="description" content="Sistema de Gestão Integrada da Coordenadoria Municipal de Proteção e Defesa Civil" />
+  <title>COMPDEC Gestão Integrada</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="preconnect" href="https://unpkg.com" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">DC</div>
+        <div><strong>COMPDEC</strong><span>Gestão Integrada</span></div>
+      </div>
+      <nav id="nav"></nav>
+      <div class="sidebar-footer">
+        <label for="roleSelect">Perfil de demonstração</label>
+        <select id="roleSelect">
+          <option value="GESTOR">Gestor COMPDEC</option>
+          <option value="COORDENADOR">Coordenador Operacional</option>
+          <option value="ALMOXARIFADO">Almoxarifado</option>
+          <option value="LIDER">Líder NUPDEC</option>
+          <option value="CONSULTA">Consulta</option>
+        </select>
+        <small id="offlineStatus">Online</small>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h1 id="pageTitle">Dashboard</h1>
+          <p id="pageSubtitle">Visão geral da operação</p>
+        </div>
+        <div class="top-actions">
+          <button class="btn ghost" id="backupBtn">Backup JSON</button>
+          <button class="btn ghost" id="installBtn" hidden>Instalar app</button>
+          <button class="btn primary" id="quickAddBtn">+ Novo registro</button>
+        </div>
+      </header>
+      <section id="content"></section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop hidden" id="modalBackdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-header">
+        <div><h2 id="modalTitle">Novo registro</h2><p id="modalHint"></p></div>
+        <button class="icon-btn" id="closeModal" aria-label="Fechar">×</button>
+      </div>
+      <form id="modalForm"></form>
+    </div>
+  </div>
+
+  <div class="modal-backdrop hidden" id="detailBackdrop" aria-hidden="true">
+    <div class="modal wide" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+      <div class="modal-header">
+        <div><h2 id="detailTitle">Detalhes</h2><p id="detailHint"></p></div>
+        <button class="icon-btn" id="closeDetail" aria-label="Fechar">×</button>
+      </div>
+      <div id="detailBody" class="detail-body"></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
