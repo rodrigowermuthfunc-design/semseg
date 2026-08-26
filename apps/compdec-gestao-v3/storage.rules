@@ -1,0 +1,24 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    function signedIn() { return request.auth != null && request.auth.token.email_verified == true; }
+    function role() { return signedIn() ? request.auth.token.role : null; }
+    function manager() { return role() in ['SUPER_ADMIN','GESTOR_COMPDEC','COORDENADOR']; }
+    function leader(nupdecId) { return role() == 'LIDER_NUPDEC' && request.auth.token.nupdecId == nupdecId; }
+    function safeUpload() {
+      return request.resource.size < 10 * 1024 * 1024
+        && request.resource.contentType.matches('(application/pdf|image/jpeg|image/png)');
+    }
+
+    match /public/{allPaths=**} { allow read: if false; allow write: if false; }
+    match /compdec/general/{allPaths=**} {
+      allow read: if manager();
+      allow write: if manager() && safeUpload();
+    }
+    match /compdec/nupdec/{nupdecId}/{allPaths=**} {
+      allow read: if manager() || leader(nupdecId);
+      allow write: if (manager() || leader(nupdecId)) && safeUpload();
+    }
+    match /{allPaths=**} { allow read, write: if false; }
+  }
+}

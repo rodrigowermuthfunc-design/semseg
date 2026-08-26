@@ -1,0 +1,9 @@
+{
+  "indexes": [
+    {"collectionGroup":"stockMovements","queryScope":"COLLECTION","fields":[{"fieldPath":"createdAt","order":"DESCENDING"},{"fieldPath":"sourceLocationId","order":"ASCENDING"}]},
+    {"collectionGroup":"materialRequests","queryScope":"COLLECTION","fields":[{"fieldPath":"status","order":"ASCENDING"},{"fieldPath":"createdAt","order":"DESCENDING"}]},
+    {"collectionGroup":"trainings","queryScope":"COLLECTION","fields":[{"fieldPath":"nupdecId","order":"ASCENDING"},{"fieldPath":"date","order":"DESCENDING"}]},
+    {"collectionGroup":"meetings","queryScope":"COLLECTION","fields":[{"fieldPath":"nupdecId","order":"ASCENDING"},{"fieldPath":"date","order":"DESCENDING"}]}
+  ],
+  "fieldOverrides": []
+}
